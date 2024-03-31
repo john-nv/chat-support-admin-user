@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const HOST = "http://localhost:7892"
+    const HOST = "http://live.wynncasino.top"
     const socket = io(HOST, { path: "/user" });
     const newMsg = new Audio('./voice/newMsg.mp3');
     const sendMsg = new Audio('./voice/sendMsg.mp3');
