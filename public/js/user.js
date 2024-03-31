@@ -80,7 +80,7 @@ $(document).ready(function () {
                         let addClassWho = response[i].who == 'admin' ? 'item-show-message-you float-left' : 'item-show-message-me float-right'
                         $('.show-message-user').append(`<div class="item-show-message ${addClassWho}"><span>${response[i].message}</span></div>`)
                     }
-                    $('.show-message-user').append(`<div class="item-show-message item-show-message-you float-left"><span>${msgWelcome}</span></div>`)
+                    $('.show-message-user').append(`<div class="item-show-message item-show-message-you float-left">${msgWelcome}</div>`)
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
                     console.log($('.show-message-user').height());
 
@@ -97,7 +97,8 @@ $(document).ready(function () {
 });
 
 
-let msgWelcome = `- Để kỷ niệm 10 năm thành lập công ty, nhằm tri ân người dùng cũ và mới, công ty hiện đang triển khai hoạt động phần thưởng khi nạp tiền và đăng ký người dùng mới để nhận phần thưởng lì xì đỏ 10$. Hãy tham khảo dịch vụ khách hàng trực tuyến " SỰ KIỆN NHẬN LÌ XÌ ĐỎ " để nhận thưởng.
+let msgWelcome = `<span>
+- Để kỷ niệm 10 năm thành lập công ty, nhằm tri ân người dùng cũ và mới, công ty hiện đang triển khai hoạt động phần thưởng khi nạp tiền và đăng ký người dùng mới để nhận phần thưởng lì xì đỏ 10$. Hãy tham khảo dịch vụ khách hàng trực tuyến " SỰ KIỆN NHẬN LÌ XÌ ĐỎ " để nhận thưởng.
 <br/><br/>
 - Các hoạt động phần thưởng khi tài khoản hội viên tích lũy nạp tiền:
 <br/><br/>
@@ -116,4 +117,5 @@ let msgWelcome = `- Để kỷ niệm 10 năm thành lập công ty, nhằm tri 
 - Đặc biệt lưu ý: Mỗi tài khoản chỉ được tham gia 1 lần trong mỗi giai đoạn nhận thưởng của hoạt động nạp tiền tích lũy.<br/>
 - Tỉ giá hối đoái 1$ = 24.500VND.<br/>
 - Khoản tiền nạp tối thiểu là 100$.<br/>
-Thời gian hoạt động được áp dụng từ 00:00 ngày 01/03/2024 đến 00:00 ngày 31/03/2024!`
+Thời gian hoạt động được áp dụng từ 00:00 ngày 01/03/2024 đến 00:00 ngày 31/03/2024!
+</span>`
