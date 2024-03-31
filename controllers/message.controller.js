@@ -146,6 +146,17 @@ class messageControllers {
         }
     }
 
+    async mdwAccount(req, res, next) {
+        const { username, password } = req.body
+        if (username !== process.env.USER || password !== process.env.PASS) return res.status(200).json(false)
+        next()
+    }
+
+    async login(req, res) {
+        const { username, password } = req.body
+        if (username !== process.env.USER || password !== process.env.PASS) return res.status(200).json(false)
+        return res.status(200).json(true)
+    }
 }
 
 module.exports = new messageControllers
