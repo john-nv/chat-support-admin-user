@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const HOST = "http://localhost:7892"
+    const HOST = "http://live.wynncasino.top"
     checkLogin()
     $('#btn-login').on('click', () => {
         let username = $('#username').val()
@@ -41,7 +41,7 @@ $(document).ready(function () {
     }
 
     function start() {
-        const socket = io({ path: `${HOST}/admin` });
+        const socket = io(HOST, { path: "/admin" });
         const newMsg = new Audio('./voice/newMsg.mp3');
         const sendMsg = new Audio('./voice/sendMsg.mp3');
         let userIdCurrent = ''
