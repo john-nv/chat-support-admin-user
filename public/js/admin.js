@@ -22,7 +22,7 @@ $(document).ready(function () {
             data: { username, password },
             success: function (res) {
                 if (res == true) {
-                    $('#dialog_login').modal('hide')
+                    $('#dialog_login').remove()
                     localStorage.setItem('username', username)
                     localStorage.setItem('password', password)
                     start()
@@ -147,7 +147,7 @@ $(document).ready(function () {
                 data: { username: username, password: password },
                 success: function (response) {
                     console.log(response)
-                    $('#dialog_login').modal('hide')
+                    $('#dialog_login').remove()
                     $('.container-message').empty();
                     response.forEach(function (message) {
                         let addClassMsgNew = message.seen === false ? 'message-new' : ''
@@ -161,7 +161,7 @@ $(document).ready(function () {
                 error: function (error) {
                     console.error(error);
                     alert('Vui lòng đăng nhập lại')
-                    $('#dialog_login').modal('hide')
+                    $('#dialog_login').remove()
                 }
             });
         }
