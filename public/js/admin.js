@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const HOST = "localhost:7892"
+    const HOST = "http://localhost:7892"
     checkLogin()
     $('#btn-login').on('click', () => {
         let username = $('#username').val()

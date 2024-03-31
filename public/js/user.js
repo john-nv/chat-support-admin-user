@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const HOST = "localhost:7892"
+    const HOST = "http://localhost:7892"
     const socket = io({ path: `${HOST}/user` });
     const newMsg = new Audio('./voice/newMsg.mp3');
     const sendMsg = new Audio('./voice/sendMsg.mp3');
