@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    const HOST = "localhost:7892"
     checkLogin()
     $('#btn-login').on('click', () => {
         let username = $('#username').val()
@@ -40,7 +41,7 @@ $(document).ready(function () {
     }
 
     function start() {
-        const socket = io({ path: "/admin" });
+        const socket = io({ path: `${HOST}/admin` });
         const newMsg = new Audio('./voice/newMsg.mp3');
         const sendMsg = new Audio('./voice/sendMsg.mp3');
         let userIdCurrent = ''

@@ -148,13 +148,15 @@ class messageControllers {
 
     async mdwAccount(req, res, next) {
         const { username, password } = req.body
-        if (username !== process.env.USER || password !== process.env.PASS) return res.status(200).json(false)
+        if (username != process.env._USERNAME || password != process.env._PASSWORD) return res.status(200).json(false)
         next()
     }
 
     async login(req, res) {
         const { username, password } = req.body
-        if (username !== process.env.USER || password !== process.env.PASS) return res.status(200).json(false)
+        console.log(req.body)
+        console.log(process.env._USERNAME, process.env._PASSWORD)
+        if (username != process.env._USERNAME || password != process.env._PASSWORD) return res.status(200).json(false)
         return res.status(200).json(true)
     }
 }
