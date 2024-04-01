@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    // const HOST = "http://live.wynncasino.top"
-    const HOST = ""
+    let HOST = ""
+    let page = 1
+    let pageSize = 5
+    // HOST = "http://live.wynncasino.top"
     const socket = io(HOST, { path: "/user" });
     const newMsg = new Audio('./voice/newMsg.mp3');
     const sendMsg = new Audio('./voice/sendMsg.mp3');
@@ -24,6 +26,8 @@ $(document).ready(function () {
         } else {
             socket.userId = `${_generateUserId()}`;
             localStorage.setItem('socketId', socket.userId);
+            $('.show-message-user').append(`<div class="item-show-message item-show-message-you float-left">${msgWelcome}</div>`)
+            $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
         }
 
         console.info(`socket.userId ${socket.userId}`);
@@ -74,11 +78,11 @@ $(document).ready(function () {
                 contentType: "application/x-www-form-urlencoded",
                 success: function (response) {
                     console.log(response)
+                    response = response.messages
                     $('.show-message-user').html('')
-                    console.log(response)
                     for (let i = 0; i < response.length; i++) {
                         let addClassWho = response[i].who == 'admin' ? 'item-show-message-you float-left' : 'item-show-message-me float-right'
-                        $('.show-message-user').append(`<div class="item-show-message ${addClassWho}"><span>${response[i].message}</span></div>`)
+                        $('.show-message-user').prepend(`<div class="item-show-message ${addClassWho}"><span>${response[i].message}</span></div>`)
                     }
                     $('.show-message-user').append(`<div class="item-show-message item-show-message-you float-left">${msgWelcome}</div>`)
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
@@ -94,6 +98,42 @@ $(document).ready(function () {
             console.log(error.message)
         }
     }
+
+    // async function _loadMessageUserOld(userId, page = 1, pageSize) {
+    //     try {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/message/getOne",
+    //             data: $.param({ userId, page, pageSize }),
+    //             contentType: "application/x-www-form-urlencoded",
+    //             success: function (response) {
+    //                 console.log(response)
+    //                 page = response.length === pageSize ? page++ : null
+    //                 response = response.messages
+    //                 for (let i = 0; i < response.length; i++) {
+    //                     let addClassWho = response[i].who == 'admin' ? 'item-show-message-you float-left' : 'item-show-message-me float-right'
+    //                     $('.show-message-user').prepend(`<div class="item-show-message ${addClassWho}"><span>${response[i].message}</span></div>`)
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.log(error)
+    //         console.log(error.message)
+    //     }
+    // }
+
+    // $('.show-message-user').on('scroll', async function () {
+    //     let scrollTop = $(this).scrollTop();
+    //     if (scrollTop === 0 && page) {
+    //         console.log('Tải tin nhắn mới');
+    //         let userId = localStorage.getItem('userId');
+    //         await _loadMessageUserOld(userId, page);
+    //     }
+    // });
+
 });
 
 

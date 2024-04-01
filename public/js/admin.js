@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    const HOST = "http://live.wynncasino.top"
+    let HOST = ""
+    // HOST = "http://live.wynncasino.top"
     checkLogin()
     $('#btn-login').on('click', () => {
         let username = $('#username').val()
@@ -113,11 +114,12 @@ $(document).ready(function () {
                 contentType: "application/x-www-form-urlencoded",
                 success: function (response) {
                     console.log(response)
+                    response = response.messages
                     $('.show-message-user').html('')
                     for (let i = 0; i < response.length; i++) {
                         let setClass = (response[i].who == 'admin') ? 'item-show-message-me float-right' : 'item-show-message-you float-left'
                         const div = `<div class="item-show-message ${setClass}"><span>${response[i].message}</span></div>`
-                        $('.show-message-user').append(div);
+                        $('.show-message-user').prepend(div);
                     }
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
                 },

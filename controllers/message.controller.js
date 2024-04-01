@@ -53,17 +53,38 @@ class messageControllers {
 
     async getOne(req, res) {
         try {
-            const { userId } = req.body
-            if (!userId || userId.trim() === '') return res.status(200).json([])
-            let messageUser = await messagesSchema.findOne({ userId })
-            if (messageUser) return res.status(200).json(messageUser.messages)
-            return res.status(200).json([])
+            const { userId, page = 1, pageSize = 200 } = req.body;
+            if (!userId || userId.trim() === '') return res.status(200).json([]);
+            const startIndex = (page - 1) * pageSize;
+            const messageUser = await messagesSchema.aggregate([
+                { $match: { userId } },
+                { $unwind: "$messages" },
+                { $sort: { "messages.createdAt": -1 } },
+                { $group: { _id: "$_id", messages: { $push: "$messages" } } },
+                {
+                    $project: {
+                        messages: {
+                            $slice: ["$messages", startIndex, pageSize]
+                        },
+                        totalCount: {
+                            $size: "$messages"
+                        }
+                    }
+                }
+            ]);
+
+            if (messageUser && messageUser.length > 0) {
+                return res.status(200).json({ messages: messageUser[0].messages, totalCount: messageUser[0].totalCount });
+            }
+            return res.status(200).json([]);
         } catch (error) {
-            res.status(200).json([])
-            console.error(error)
-            console.error(error.message)
+            res.status(500).json([]);
+            console.error(error);
         }
     }
+
+
+
 
     async getAll() {
         try {
