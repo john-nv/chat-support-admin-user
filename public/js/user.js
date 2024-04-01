@@ -2,7 +2,7 @@ $(document).ready(function () {
     let HOST = ""
     let page = 1
     let pageSize = 5
-    // HOST = "http://live.wynncasino.top"
+    HOST = "http://live.wynncasino.top"
     const socket = io(HOST, { path: "/user" });
     const newMsg = new Audio('./voice/newMsg.mp3');
     const sendMsg = new Audio('./voice/sendMsg.mp3');

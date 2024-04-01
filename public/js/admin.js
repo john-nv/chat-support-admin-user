@@ -1,37 +1,61 @@
 $(document).ready(function () {
     let HOST = ""
-    // HOST = "http://live.wynncasino.top"
-    checkLogin()
-    $('#btn-login').on('click', () => {
+    HOST = "http://live.wynncasino.top"
+    _apiVeriAccount()
+    $('#btn-login').on('click', async () => {
         let username = $('#username').val()
         let password = $('#password').val()
-        _apiLogin(username, password)
+        await _apiLogin(username, password)
     })
-    function checkLogin() {
-        let username = localStorage.getItem('username')
-        let password = localStorage.getItem('password')
 
-        if (username && password) return _apiLogin(username, password)
-        $('#dialog_login').modal('show');
-    }
-
-    function _apiLogin(username, password) {
+    async function _apiLogin(username, password) {
         if (username.length < 1 || password.length < 1) return alert('Tài khoản hoặc mật khẩu quá ngắn !');
         $.ajax({
             type: "POST",
-            url: "/message/login",
+            url: "/account/login",
             data: { username, password },
             success: function (res) {
-                if (res == true) {
-                    $('#dialog_login').remove()
-                    localStorage.setItem('username', username)
-                    localStorage.setItem('password', password)
+                if (res.code) {
+                    // $('#dialog_login').remove()
+                    $('#dialog_login').modal('hide')
+                    localStorage.setItem('token', res.token)
                     start()
                 } else {
-                    alert('Tài khoản hoặc mật khẩu sai !');
+                    localStorage.removeItem('token');
+                    alert(res.message);
                     $('#dialog_login').modal('show')
-                    localStorage.removeItem('username');
-                    localStorage.removeItem('password');
+                }
+            },
+            error: function (error) {
+                console.log(error)
+                $('#dialog_login').modal('show')
+            }
+        })
+    }
+
+    async function _apiVeriAccount() {
+        $("#dialog_login").modal("show")
+        $("#dialog_login").modal("hide")
+        const token = localStorage.getItem('token')
+        if (!token || token.length < 10) {
+            localStorage.removeItem('token')
+            $('#dialog_login').modal('show')
+            console.log('Không có token hoặc token ảo')
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "/account/verify",
+            data: { token },
+            success: function (res) {
+                if (!res.expired) {
+                    // $('#dialog_login').remove()
+                    $('#dialog_login').modal('hide')
+                    start()
+                } else {
+                    alert(res.message);
+                    $('#dialog_login').modal('show')
+                    localStorage.removeItem('token');
                 }
             },
             error: function (error) {
@@ -140,16 +164,14 @@ $(document).ready(function () {
         }
 
         function _loadMessage() {
-            const username = localStorage.getItem('username')
-            const password = localStorage.getItem('password')
-            console.log(username, password)
+            const token = localStorage.getItem('token')
             $.ajax({
                 type: "POST",
                 url: "/message/getAllUser",
-                data: { username: username, password: password },
+                data: { token },
                 success: function (response) {
                     console.log(response)
-                    $('#dialog_login').remove()
+                    $('#dialog_login').modal('hide')
                     $('.container-message').empty();
                     response.forEach(function (message) {
                         let addClassMsgNew = message.seen === false ? 'message-new' : ''
@@ -163,7 +185,7 @@ $(document).ready(function () {
                 error: function (error) {
                     console.error(error);
                     alert('Vui lòng đăng nhập lại')
-                    $('#dialog_login').remove()
+                    $('#dialog_login').modal('show')
                 }
             });
         }
