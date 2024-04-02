@@ -26,6 +26,7 @@ body {
     display: block;
     clear: both;
     font-size: 14px;
+    width: 40%;
 }
 
 .item-show-message-me {
