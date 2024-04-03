@@ -72,7 +72,7 @@ $(document).ready(async () => {
     });
 
     socket.on('message', (payload) => {
-        $('.show-message-user').append(`<div class="item-show-message item-show-message-you float-left"><span>${payload.message}</span></div>`);
+        $('.show-message-user').append(sendMessageYou(payload.message));
         console.log(payload)
         if (volume) newMsg.play()
         $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
