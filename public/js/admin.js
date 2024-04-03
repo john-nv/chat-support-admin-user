@@ -94,8 +94,7 @@ $(document).ready(function () {
             if (userIdCurrent == userId) {
                 addClassMsgNew = '';
                 _seenMessageUserId(userId)
-                const div = `<div class="item-show-message item-show-message-you float-left"><span>${message}</span></div>`;
-                $('.show-message-user').append(div);
+                $('.show-message-user').append(sendMessageYou(message));
                 $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
             }
 
@@ -141,8 +140,9 @@ $(document).ready(function () {
                     response = response.messages
                     $('.show-message-user').html('')
                     for (let i = 0; i < response.length; i++) {
-                        let setClass = (response[i].who == 'admin') ? 'item-show-message-me float-right' : 'item-show-message-you float-left'
-                        const div = `<div class="item-show-message ${setClass}"><span>${response[i].message}</span></div>`
+                        // let setClass = (response[i].who == 'admin') ? 'item-show-message-me float-right' : 'item-show-message-you float-left'
+                        // const div = `<div class="item-show-message ${setClass}"><span>${response[i].message}</span></div>`
+                        let div = response[i].who == 'admin' ? sendMessageMe(response[i].message) : sendMessageYou(response[i].message)
                         $('.show-message-user').prepend(div);
                     }
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
@@ -177,8 +177,9 @@ $(document).ready(function () {
                         let addClassMsgNew = message.seen === false ? 'message-new' : ''
                         const messageDiv = $('<div>', {
                             class: `item-message ${addClassMsgNew}`,
-                            'data-userId': message.userId
-                        }).html(`<span class="item-title">Tin nhắn từ</span><br/><span>${message.userId}</span>`);
+                            'data-userId': message.userId,
+                            'data-username': message.username,
+                        }).html(`<span class="item-title">Tin nhắn từ</span><br/><span>${message.username}</span>`);
                         $('.container-message').append(messageDiv);
                     });
                 },
@@ -205,10 +206,40 @@ $(document).ready(function () {
                 message,
                 userId: userIdCurrent,
             });
-            const div = `<div class="item-show-message item-show-message-me float-right"><span>${message}</span></div>`
-            $('.show-message-user').append(div);
+            // const div = `<div class="item-show-message item-show-message-me float-right"><span>${message}</span></div>`
+            $('.show-message-user').append(sendMessageMe(message));
             $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
             $('#value-message').val('');
         }
+
+        $('.setMsgWelcome').on('click', () => {
+            let msg = $('.valueMsgWelcome').val()
+            let token = localStorage.getItem('token')
+            $.ajax({
+                type: "POST",
+                url: "/message/setConfig",
+                data: $.param({ msgWelcome: msg, token }),
+                contentType: "application/x-www-form-urlencoded",
+                success: function (response) {
+                    alert(response.message)
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
     }
 });
+function sendMessageYou(content) {
+    return `<div class="item-show-message item-show-message-you float-left">
+                <div class="item-show-message-you-avt"><img src="./img/me.svg" height="40" width="40"></div>
+                <p>${content}</p>
+            </div>`
+}
+
+function sendMessageMe(content) {
+    return `<div class="item-show-message item-show-message-me float-right">
+                <p>${content}</p>
+                <div class="item-show-message-me-avt"><img src="./img/you.svg" height="40" width="40"></div>
+            </div>`
+}

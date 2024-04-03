@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 var colors = require('colors')
 
-const { messagesSchema, saveSocketIdUserSchema } = require('../config/database/schemas')
+const { messagesSchema, saveSocketIdUserSchema, configSchema } = require('../config/database/schemas')
 
 class messageControllers {
     async create(payload) {
-        const { userId } = payload
+        const { userId, userName } = payload
         try {
             let user = await messagesSchema.findOne({ userId })
             if (user) return
-            const newMessage = new messagesSchema({ userId, messages: [], seen: true })
+            const newMessage = new messagesSchema({ userId, seen: false, username: userName, messages: [] })
             await newMessage.save()
         } catch (error) {
             console.error(error)
@@ -76,7 +76,7 @@ class messageControllers {
             if (messageUser && messageUser.length > 0) {
                 return res.status(200).json({ messages: messageUser[0].messages, totalCount: messageUser[0].totalCount });
             }
-            return res.status(200).json([]);
+            return res.status(200).json({ messages: [], totalCount: 0 });
         } catch (error) {
             res.status(500).json([]);
             console.error(error);
@@ -84,18 +84,16 @@ class messageControllers {
     }
 
 
-
-
-    async getAll() {
-        try {
-            let listMessageUser = await messagesSchema.find().sort({ createdAt: -1 }).limit(50)
-            if (listMessageUser.length > 0) return listMessageUser
-            return []
-        } catch (error) {
-            console.error(error)
-            console.error(error.message)
-        }
-    }
+    // async getAll() {
+    //     try {
+    //         let listMessageUser = await messagesSchema.find().sort({ createdAt: -1 }).limit(50)
+    //         if (listMessageUser.length > 0) return listMessageUser
+    //         return []
+    //     } catch (error) {
+    //         console.error(error)
+    //         console.error(error.message)
+    //     }
+    // }
 
     async getAllUserId(req, res) {
         try {
@@ -106,12 +104,13 @@ class messageControllers {
                     $group: {
                         _id: "$userId",
                         latestMessage: { $first: "$messages" },
-                        seen: { $last: "$seen" }
+                        seen: { $last: "$seen" },
+                        username: { $first: "$username" }
                     }
                 },
                 { $sort: { "latestMessage.createdAt": -1 } },
                 { $limit: 50 },
-                { $project: { userId: "$_id", seen: 1, _id: 0 } }
+                { $project: { userId: "$_id", seen: 1, _id: 0, username: 1, } }
             ]);
 
             if (listMessageUser.length > 0) return res.status(200).json(listMessageUser)
@@ -163,6 +162,25 @@ class messageControllers {
             return res.status(200).json(1)
         } catch (error) {
             console.error(error)
+            console.error(error.message)
+        }
+    }
+
+    async getConfig(req, res) {
+        try {
+            let config = await configSchema.findOne({ _id: process.env._ID_CONFIG })
+            return res.status(200).json(config)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    async setConfig(req, res) {
+        try {
+            const { msgWelcome } = req.body
+            let config = await configSchema.updateOne({ _id: process.env._ID_CONFIG }, { msgWelcome })
+            return res.status(200).json({ message: 'Thay đổi thành công' })
+        } catch (error) {
             console.error(error.message)
         }
     }

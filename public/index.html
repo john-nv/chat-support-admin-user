@@ -23,7 +23,9 @@
                 <i class="fa-solid fa-volume-high"></i>
             </div>
         </div>
-        <div class="show-message-user"></div>
+        <div class="show-message-user">
+            <div class="item-show-message item-show-message-you float-left"></div>
+        </div>
         <div class="control-message-user">
             <input type="text" id="value-message" placeholder="Nhập tin nhắn ...">
             <button id="send-message" class="sc-chPdSV hiexti rsc-submit-button">
@@ -36,6 +38,27 @@
                     </g>
                 </svg>
             </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dialog_username" style="margin-top: 21vh; display: none;" tabindex="-1"
+        data-backdrop="static" bis_skin_checked="1" aria-hidden="true">
+        <div class="modal-dialog" bis_skin_checked="1">
+            <div class="modal-content" id="dialog-content" bis_skin_checked="1">
+                <div class="modal-header" bis_skin_checked="1">
+                    <h5 class="modal-title" style="font-weight: 600; color: rgb(69 69 69);">Nhập tên nhân vật</h5>
+                    &ensp;
+                    <i style="font-weight: 600; color: rgb(69 69 69);" class="fa-solid fa-robot"></i>
+                </div>
+                <div class="modal-body" bis_skin_checked="1">
+                    <input type="text" id="username" class="form-control" placeholder="Nhập tên nhân vật">
+                </div>
+                <div class="modal-footer" bis_skin_checked="1">
+                    <button type="button" id="getUsername"
+                        style="background-color: #0084ff; border: #0084ff; font-weight: 550;"
+                        class="btn btn-primary">Bắt đầu</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

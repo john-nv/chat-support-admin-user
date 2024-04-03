@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
     userId: String,
+    username: String,
+    seen: Boolean,
     messages: [
         {
             who: String,
@@ -14,7 +16,6 @@ const messageSchema = new Schema({
             }
         }
     ],
-    seen: Boolean
 }, {
     timestamps: true,
     timezone: 'Asia/Ho_Chi_Minh'
