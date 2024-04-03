@@ -115,9 +115,11 @@ $(document).ready(function () {
             $(this).addClass('message-active');
             if ($(this).hasClass('message-new')) $(this).removeClass('message-new')
             const userId = $(this).data('userid');
-            $('.userNameCurrent').text(`Chat với ${userId}`);
+            const username = $(this).data('username');
+            $('.userNameCurrent').text(`Chat với ${username}`);
             userIdCurrent = userId
             console.log(`=> ${userId}`)
+            console.log(`=> ${username}`)
             _loadMessageOneUser(userId)
         });
 
