@@ -27,6 +27,12 @@ body {
     max-width: 55%;
 }
 
+@media only screen and (max-width: 600px) {
+    .item-show-message {
+        max-width: 90%;
+    }
+}
+
 .item-show-message p {
     padding: 7px 14px 7px 14px;
     border-radius: 14px;

@@ -230,6 +230,16 @@ $(document).ready(function () {
                 }
             });
         })
+
+        $.ajax({
+            type: "POST",
+            url: "/message/getConfig",
+            contentType: "application/x-www-form-urlencoded",
+            success: function (response) {
+                console.log(response)
+                $('.valueMsgWelcome').val(response.msgWelcome)
+            }
+        });
     }
 });
 function sendMessageYou(content) {

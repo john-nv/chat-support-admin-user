@@ -9,6 +9,7 @@ var colors = require('colors')
 const { connect } = require('./config/database/mongo')
 const router = require('./routers/index')
 const messageController = require('./controllers/message.controller')
+const { sendMessage } = require('./utils/telegram')
 const PORT = process.env.PORT || 7892
 
 connect()
@@ -51,7 +52,8 @@ async function startServerSocket() {
 
         socket.on('init', async (payload) => {
             countUserConnect++
-            const { userId, socketId } = payload
+            const { userId, socketId, userName } = payload
+            sendMessage(`Tin nhắn mới từ : ${userName}`)
             const index = listUser.findIndex(user => user.userId === userId)
             if (index === -1) {
                 listUser.push({ userId, socketId })
