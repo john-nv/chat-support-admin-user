@@ -3,6 +3,7 @@ $(document).ready(async () => {
     // let page = 1
     // let pageSize = 5
     HOST = "http://live.wynncasino.top"
+    let msgReply = 0
     const socket = io(HOST, { path: "/user" });
     const newMsg = new Audio('./voice/newMsg.mp3');
     const sendMsg = new Audio('./voice/sendMsg.mp3');
@@ -100,6 +101,11 @@ $(document).ready(async () => {
         });
         if (volume) sendMsg.play()
         $('#value-message').val("");
+
+        if (msgReply < 1) {
+            msgReply++
+            $('.show-message-user').append(sendMessageYou("Vui lòng đợi một lát, chúng tôi sẽ liên hệ lại bạn ngay !!!"));
+        }
         $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
     }
 
