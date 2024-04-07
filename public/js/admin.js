@@ -94,7 +94,7 @@ $(document).ready(function () {
             if (userIdCurrent == userId) {
                 addClassMsgNew = '';
                 _seenMessageUserId(userId)
-                $('.show-message-user').append(sendMessageYou(message));
+                $('.show-message-user').append(sendMessageYou(message, true));
                 $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
             }
 
@@ -144,7 +144,7 @@ $(document).ready(function () {
                     for (let i = 0; i < response.length; i++) {
                         // let setClass = (response[i].who == 'admin') ? 'item-show-message-me float-right' : 'item-show-message-you float-left'
                         // const div = `<div class="item-show-message ${setClass}"><span>${response[i].message}</span></div>`
-                        let div = response[i].who == 'admin' ? sendMessageMe(response[i].message) : sendMessageYou(response[i].message)
+                        let div = response[i].who == 'admin' ? sendMessageMe(response[i].message, response[i].createdAt) : sendMessageYou(response[i].message, response[i].createdAt)
                         $('.show-message-user').prepend(div);
                     }
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
@@ -209,7 +209,7 @@ $(document).ready(function () {
                 userId: userIdCurrent,
             });
             // const div = `<div class="item-show-message item-show-message-me float-right"><span>${message}</span></div>`
-            $('.show-message-user').append(sendMessageMe(message));
+            $('.show-message-user').append(sendMessageMe(message, true));
             $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
             $('#value-message').val('');
         }
@@ -242,16 +242,35 @@ $(document).ready(function () {
         });
     }
 });
-function sendMessageYou(content) {
+
+function sendMessageYou(content, time) {
+    time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-you float-left">
                 <div class="item-show-message-you-avt"><img src="./img/me.svg" height="40" width="40"></div>
                 <p>${content}</p>
+                <span>${time}</span>
             </div>`
 }
 
-function sendMessageMe(content) {
+function sendMessageMe(content, time) {
+    time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-me float-right">
+                <span>${time}</span>
                 <p>${content}</p>
                 <div class="item-show-message-me-avt"><img src="./img/you.svg" height="40" width="40"></div>
             </div>`
+}
+
+function convertTimeToHHMMVietnam(originalTimeStr) {
+    var originalTime = moment(originalTimeStr);
+    originalTime.utcOffset('+07:00');
+    var formattedTime = originalTime.format('HH:mm');
+    return formattedTime;
+}
+
+function getCurrentTimeHHMMVietnam() {
+    var currentTime = moment();
+    currentTime.utcOffset('+07:00');
+    var formattedTime = currentTime.format('HH:mm');
+    return formattedTime;
 }

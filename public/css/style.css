@@ -61,6 +61,21 @@ body {
     background-color: #0084ff;
 }
 
+
+.item-show-message-me span,
+.item-show-message-you span {
+    color: #b1b3b5;
+    font-size: 12px;
+}
+
+.item-show-message-me span {
+    padding-right: 5px;
+}
+
+.item-show-message-you span {
+    padding-left: 5px;
+}
+
 .item-show-message-you p {
     background-color: #303030;
 }

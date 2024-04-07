@@ -73,7 +73,7 @@ $(document).ready(async () => {
     });
 
     socket.on('message', (payload) => {
-        $('.show-message-user').append(sendMessageYou(payload.message));
+        $('.show-message-user').append(sendMessageYou(payload.message, true));
         console.log(payload)
         if (volume) newMsg.play()
         $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
@@ -92,7 +92,7 @@ $(document).ready(async () => {
         console.log(message)
         if (message.length < 1) return;
 
-        $('.show-message-user').append(sendMessageMe(message));
+        $('.show-message-user').append(sendMessageMe(message, true));
 
         socket.emit('message', {
             socketId: socket.id,
@@ -104,7 +104,7 @@ $(document).ready(async () => {
 
         if (msgReply < 1) {
             msgReply++
-            $('.show-message-user').append(sendMessageYou("Vui lòng đợi một lát, chúng tôi sẽ liên hệ lại bạn ngay !!!"));
+            $('.show-message-user').append(sendMessageYou("Vui lòng đợi một lát, chúng tôi sẽ liên hệ lại bạn ngay !!!", true));
         }
         $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
     }
@@ -126,7 +126,7 @@ $(document).ready(async () => {
                     $('.show-message-user').html('')
                     console.log(response.length)
                     for (let i = 0; i < response.length; i++) {
-                        let div = response[i].who == 'admin' ? sendMessageYou(response[i].message) : sendMessageMe(response[i].message)
+                        let div = response[i].who == 'admin' ? sendMessageYou(response[i].message, response[i].createdAt) : sendMessageMe(response[i].message, response[i].createdAt)
                         $('.show-message-user').prepend(div)
                     }
                     $('.show-message-user').append(sendMessageWelcome(msgWelcome))
@@ -181,15 +181,19 @@ $(document).ready(async () => {
 
 });
 
-function sendMessageYou(content) {
+function sendMessageYou(content, time) {
+    time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-you float-left">
                 <div class="item-show-message-you-avt"><img src="./img/you.svg" height="40" width="40"></div>
                 <p>${content}</p>
+                <span>${time}</span>
             </div>`
 }
 
-function sendMessageMe(content) {
+function sendMessageMe(content, time) {
+    time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-me float-right">
+                <span>${time}</span>
                 <p>${content}</p>
                 <div class="item-show-message-me-avt"><img src="./img/me.svg" height="40" width="40"></div>
             </div>`
@@ -200,5 +204,20 @@ function sendMessageWelcome(content) {
     return `<div class="item-show-message item-show-message-you float-left">
                 <div class="item-show-message-you-avt"><img src="./img/you.svg" height="40" width="40"></div>
                 <p>${content}</p>
+                <span>${getCurrentTimeHHMMVietnam()}</span>
             </div>`
+}
+
+function convertTimeToHHMMVietnam(originalTimeStr) {
+    var originalTime = moment(originalTimeStr);
+    originalTime.utcOffset('+07:00');
+    var formattedTime = originalTime.format('HH:mm');
+    return formattedTime;
+}
+
+function getCurrentTimeHHMMVietnam() {
+    var currentTime = moment();
+    currentTime.utcOffset('+07:00');
+    var formattedTime = currentTime.format('HH:mm');
+    return formattedTime;
 }
