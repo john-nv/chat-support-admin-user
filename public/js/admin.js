@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let HOST = ""
-    HOST = "http://live.wynncasino.top"
+    // HOST = "http://live.wynncasino.top"
     _apiVeriAccount()
     $('#btn-login').on('click', async () => {
         let username = $('#username').val()

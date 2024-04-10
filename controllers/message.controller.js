@@ -72,9 +72,10 @@ class messageControllers {
                     }
                 }
             ]);
-
             if (messageUser && messageUser.length > 0) {
                 return res.status(200).json({ messages: messageUser[0].messages, totalCount: messageUser[0].totalCount });
+            } {
+                return res.status(200).json({ messages: [], totalCount: 0, user: 0 });
             }
             return res.status(200).json({ messages: [], totalCount: 0 });
         } catch (error) {

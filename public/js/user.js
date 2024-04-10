@@ -2,7 +2,7 @@ $(document).ready(async () => {
     let HOST = ""
     // let page = 1
     // let pageSize = 5
-    HOST = "http://live.wynncasino.top"
+    // HOST = "http://live.wynncasino.top"
     let msgReply = 0
     const socket = io(HOST, { path: "/user" });
     const newMsg = new Audio('./voice/newMsg.mp3');
@@ -121,7 +121,11 @@ $(document).ready(async () => {
                 data: $.param({ userId: userId }),
                 contentType: "application/x-www-form-urlencoded",
                 success: function (response) {
-                    console.log(response)
+                    if (response.user == 0) {
+                        localStorage.removeItem('userName')
+                        localStorage.removeItem('socketId')
+                        location.reload()
+                    }
                     if (response.messages) response = response.messages
                     $('.show-message-user').html('')
                     console.log(response.length)
