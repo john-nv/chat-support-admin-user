@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
-
 body {
     height: 100vh;
     background-color: transparent;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+    font-weight: bolder !important;
 }
 
 ::-webkit-scrollbar {
@@ -31,11 +30,28 @@ body {
     .item-show-message {
         max-width: 90%;
     }
+    .item-show-message-me span,
+    .item-show-message-you span {
+        font-size: 12px;
+    }
+    .item-show-message {
+        font-size: 13px;
+    }
+    .title-message-user span {
+        font-size: 13px;
+    }
+    .item-show-message p {
+        padding: 12px 16px 12px 16px;
+        margin-bottom: 3px;
+    }
 }
 
 .item-show-message p {
-    padding: 7px 14px 7px 14px;
-    border-radius: 14px;
+    padding: 14px 18px 14px 18px;
+    margin-bottom: 3px;
+}
+
+.item-show-message img {
     margin-bottom: 3px;
 }
 
@@ -57,10 +73,21 @@ body {
     border-radius: 50% 50% 0px;
 }
 
-.item-show-message-me p {
-    background-color: #0084ff;
+.item-show-message-me p,
+.item-show-message-you p {
+    /* background-color: #0084ff !important; */
+    font-weight: bolder !important;
 }
 
+.item-show-message-you p {
+    border-radius: 18px 18px 18px 0px;
+    background-color: #303030 !important;
+}
+
+.item-show-message-me p {
+    border-radius: 18px 18px 0px;
+    background-color: #0084ff !important;
+}
 
 .item-show-message-me span,
 .item-show-message-you span {
@@ -76,6 +103,8 @@ body {
     padding-left: 5px;
 }
 
-.item-show-message-you p {
-    background-color: #303030;
+.btn-img i {
+    margin-top: 5px;
+    font-size: 22px;
+    color: #4a4a4a;
 }

@@ -8,5 +8,6 @@ router.post('/updateSeen', messageControllers.updateSeen)
 router.post('/getAllUser', accountControllers.mdwVerifyJwt, messageControllers.getAllUserId)
 router.post('/getConfig', messageControllers.getConfig)
 router.post('/setConfig', accountControllers.mdwVerifyJwt, messageControllers.setConfig)
+    // router.post('/deleteAllUser', accountControllers.mdwVerifyJwt, messageControllers.deleteAllMessages)
 
 module.exports = router
