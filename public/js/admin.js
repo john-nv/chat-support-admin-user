@@ -1,7 +1,7 @@
 $(document).ready(function() {
     let HOST = ""
-        // HOST = "http://live.wynncasino.top"
-    HOST = "http://localhost:7892"
+    HOST = "http://live.wynncasino.top"
+        // HOST = "http://localhost:7892"
     _apiVeriAccount()
     $('#btn-login').on('click', async() => {
         let username = $('#username').val()
