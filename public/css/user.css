@@ -15,7 +15,7 @@ body {
     background-color: #0084ff !important;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    z-index: 9;
+    /* z-index: 9; */
 }
 
 .wrap-avt {
@@ -89,7 +89,7 @@ body {
     border-top: 2px solid #a0a0a0;
     padding: 10px;
     display: flex;
-    z-index: 9;
+    /* z-index: 9; */
     font-size: 14px;
     font-weight: 700;
 }
