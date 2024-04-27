@@ -296,7 +296,7 @@ function sendMessageMeImg(url, time) {
     time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-me float-right">
                 <span>${time}</span>
-                <img style="height: 100px; width: auto; border-radius: 10px;" class="zoomable-image" src="${url}">
+                <img style="height: 100px; width: auto; border-radius: 3px;" class="zoomable-image" src="${url}">
                 <div class="item-show-message-me-avt"><img src="./img/me.svg" height="40" width="40"></div>
             </div>`
 }
@@ -305,7 +305,7 @@ function sendMessageYouImg(url, time) {
     time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)
     return `<div class="item-show-message item-show-message-you float-left">
                 <div class="item-show-message-you-avt"><img src="./img/logo-you.png" height="40" width="40"></div>
-                <img class="zoomable-image" style="height: 100px; width: auto; border-radius: 10px;" src="${url}">
+                <img class="zoomable-image" style="height: 100px; width: auto; border-radius: 3px;" src="${url}">
                 <span>${time}</span>
             </div>`
 }
