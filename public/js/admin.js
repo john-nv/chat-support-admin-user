@@ -1,9 +1,16 @@
-$(document).ready(function() {
+let msg1 = ''
+let msg2 = ''
+let msg3 = ''
+let msg4 = ''
+let msg5 = ''
+
+$(document).ready(function () {
     let HOST = ""
     HOST = "http://live.wynncasino.top"
-        // HOST = "http://localhost:7892"
+    // HOST = "http://localhost:7892"
     _apiVeriAccount()
-    $('#btn-login').on('click', async() => {
+
+    $('#btn-login').on('click', async () => {
         let username = $('#username').val()
         let password = $('#password').val()
         await _apiLogin(username, password)
@@ -15,7 +22,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/account/login",
             data: { username, password },
-            success: function(res) {
+            success: function (res) {
                 if (res.code) {
                     // $('#dialog_login').remove()
                     $('#dialog_login').modal('hide')
@@ -27,7 +34,7 @@ $(document).ready(function() {
                     $('#dialog_login').modal('show')
                 }
             },
-            error: function(error) {
+            error: function (error) {
                 console.log(error)
                 $('#dialog_login').modal('show')
             }
@@ -48,7 +55,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/account/verify",
             data: { token },
-            success: function(res) {
+            success: function (res) {
                 if (!res.expired) {
                     // $('#dialog_login').remove()
                     $('#dialog_login').modal('hide')
@@ -59,7 +66,7 @@ $(document).ready(function() {
                     localStorage.removeItem('token');
                 }
             },
-            error: function(error) {
+            error: function (error) {
                 console.log(error)
                 $('#dialog_login').modal('show')
             }
@@ -94,7 +101,7 @@ $(document).ready(function() {
         _loadMessage()
 
         $('.volume i').toggleClass('fa-volume-high', volume).toggleClass('fa-volume-xmark', !volume);
-        $('.volume').click(function() {
+        $('.volume').click(function () {
             var icon = $(this).find('i');
             volume = !volume;
             localStorage.setItem('volumeSetting_admin', volume);
@@ -152,19 +159,19 @@ $(document).ready(function() {
             $('#input-image').click()
         });
 
-        $('#input-image').on('change', function() {
+        $('#input-image').on('change', function () {
             if (this.files && this.files[0]) {
                 $('.show-image-container').show()
                 var reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#show-image').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(this.files[0]);
             }
         });
 
-        $('.close-image').on('click', function() {
+        $('.close-image').on('click', function () {
             _closeImage()
         });
 
@@ -207,7 +214,7 @@ $(document).ready(function() {
             $('.userNameChange').val('')
         })
 
-        $(document).on('click', '.item-message', function() {
+        $(document).on('click', '.item-message', function () {
             $('.item-message').removeClass('message-active');
             $(this).addClass('message-active');
             if ($(this).hasClass('message-new')) $(this).removeClass('message-new')
@@ -215,14 +222,14 @@ $(document).ready(function() {
             // const username = $(this).data('username');
             userIdCurrent = userId
             console.log(`=> ${userId}`)
-                // console.log(`=> ${username}`)
+            // console.log(`=> ${username}`)
             localStorage.setItem('message_current', userId)
             _loadMessageOneUser(userId)
         });
 
         $('#send-message').on('click', () => { _sendMessage() });
 
-        $('#value-message').on('keypress', function(event) {
+        $('#value-message').on('keypress', function (event) {
             if (event.which === 13 && !event.shiftKey) {
                 _sendMessage();
             }
@@ -234,7 +241,7 @@ $(document).ready(function() {
         });
 
         // medium zoom
-        $(document).on('click', '.zoomable-image', function() {
+        $(document).on('click', '.zoomable-image', function () {
             var imageElement = this;
             if (!$(imageElement).data('medium-zoomed')) {
                 mediumZoom(imageElement);
@@ -248,7 +255,7 @@ $(document).ready(function() {
                 url: "/message/getOne",
                 data: $.param({ userId: userId }),
                 contentType: "application/x-www-form-urlencoded",
-                success: function(response) {
+                success: function (response) {
                     console.log(response)
                     $('.userNameCurrent').text(`${response.userName} | ${response.userId}`);
                     response = response.messages
@@ -268,7 +275,7 @@ $(document).ready(function() {
                     }
                     $('.show-message-user').scrollTop($('.show-message-user')[0].scrollHeight);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
@@ -290,11 +297,11 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/message/getAllUser",
                 data: { token },
-                success: function(response) {
+                success: function (response) {
                     console.log(response)
                     $('#dialog_login').modal('hide')
                     $('.container-message').empty();
-                    response.forEach(function(message) {
+                    response.forEach(function (message) {
                         let addClassMsgNew = message.seen === false ? 'message-new' : ''
                         const messageDiv = $('<div>', {
                             class: `item-message ${addClassMsgNew}`,
@@ -306,7 +313,7 @@ $(document).ready(function() {
 
                     // showMessageCurrent()
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error(error);
                     alert('Vui lòng đăng nhập lại')
                     $('#dialog_login').modal('show')
@@ -338,16 +345,26 @@ $(document).ready(function() {
         $('.setMsgWelcome').on('click', () => {
             let valueMsgWelcome = $('.valueMsgWelcome').val()
             let valueMsgReply = $('.valueMsgReply').val()
+            msg1 = $('#msg1').val()
+            msg2 = $('#msg2').val()
+            msg3 = $('#msg3').val()
+            msg4 = $('#msg4').val()
+            msg5 = $('#msg5').val()
             let token = localStorage.getItem('token')
             $.ajax({
                 type: "POST",
                 url: "/message/setConfig",
-                data: $.param({ msgWelcome: valueMsgWelcome, msgReply: valueMsgReply, token }),
+                data: $.param({ msgWelcome: valueMsgWelcome, msgReply: valueMsgReply, token, msg1, msg2, msg3, msg4, msg5 }),
                 contentType: "application/x-www-form-urlencoded",
-                success: function(response) {
+                success: function (response) {
                     alert(response.message)
+                    msg1 = msg1
+                    msg2 = msg2
+                    msg3 = msg3
+                    msg4 = msg4
+                    msg5 = msg5
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
@@ -357,15 +374,47 @@ $(document).ready(function() {
             type: "POST",
             url: "/message/getConfig",
             contentType: "application/x-www-form-urlencoded",
-            success: function(response) {
+            success: function (response) {
                 console.log(response)
                 $('.valueMsgWelcome').val(response.msgWelcome)
                 $('.valueMsgReply').val(response.msgReply)
+                $('#msg1').val(response.msg1)
+                $('#msg2').val(response.msg2)
+                $('#msg3').val(response.msg3)
+                $('#msg4').val(response.msg4)
+                $('#msg5').val(response.msg5)
+                msg1 = response.msg1
+                msg2 = response.msg2
+                msg3 = response.msg3
+                msg4 = response.msg4
+                msg5 = response.msg5
             }
         });
 
     }
 });
+
+function autoMessageRelpy(index) {
+    switch (index) {
+        case 1:
+            console.log(msg1)
+            $('#value-message').val(msg1)
+            break;
+        case 2:
+            console.log(msg2)
+            $('#value-message').val(msg2)
+            break;
+        case 3:
+            $('#value-message').val(msg3)
+            break;
+        case 4:
+            $('#value-message').val(msg4)
+            break;
+        case 5:
+            $('#value-message').val(msg5)
+            break;
+    }
+}
 
 function sendMessageYou(content, time) {
     time = time == true ? getCurrentTimeHHMMVietnam() : convertTimeToHHMMVietnam(time)

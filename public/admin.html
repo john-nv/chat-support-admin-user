@@ -34,10 +34,17 @@
                             <i class="fa-regular fa-circle-xmark"></i>
                         </button>
                     </div>
+                    <div class="show-control-reply-user" style="text-align: right;">
+                        <button class="btn btn-primary" onclick="autoMessageRelpy(1)">1</button>
+                        <button class="btn btn-primary" onclick="autoMessageRelpy(2)">2</button>
+                        <button class="btn btn-primary" onclick="autoMessageRelpy(3)">3</button>
+                        <button class="btn btn-primary" onclick="autoMessageRelpy(4)">4</button>
+                        <button class="btn btn-primary" onclick="autoMessageRelpy(5)">5</button>
+                    </div>
                     <input type="text" id="value-message" style="height: 100%;" class="form-control flex-grow-1" placeholder="Nhập tin nhắn ...">
                     <input type="file" id="input-image" accept="image/png, image/jpeg" hidden>
-                    <div class="input-group-append">
-                        <button class="btn-img">
+                    <div class="input-group-append" style="z-index: 0;">
+                        <button class="btn-img btn btn-secondary">
                             <i class="fa-regular fa-image"></i>
                         </button>
                         <button id="send-message" class="btn btn-primary">Gửi</button>
@@ -81,6 +88,16 @@
         <h6 class="font-weight-bold">Thay đổi tin nhắn</h6>
         <textarea class="form-control valueMsgWelcome mb-2" style="height: 70px;"></textarea>
         <textarea class="form-control valueMsgReply" hidden style="height: 70px;"></textarea>
+        <label for="msg1">Tin nhắn 1</label>
+        <input type="text" class="form-control mb-2" id="msg1">
+        <label for="msg1">Tin nhắn 2</label>
+        <input type="text" class="form-control mb-2" id="msg2">
+        <label for="msg1">Tin nhắn 3</label>
+        <input type="text" class="form-control mb-2" id="msg3">
+        <label for="msg1">Tin nhắn 4</label>
+        <input type="text" class="form-control mb-2" id="msg4">
+        <label for="msg1">Tin nhắn 5</label>
+        <input type="text" class="form-control mb-2" id="msg5">
         <button class="btn btn-success mt-2 setMsgWelcome" style="margin-bottom: 100px;">Lưu</button>
     </div>
 </body>

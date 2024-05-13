@@ -214,9 +214,9 @@ class messageControllers {
 
     async setConfig(req, res) {
         try {
-            const { msgWelcome, msgReply } = req.body
-                // let config = await configSchema.updateOne({ _id: process.env._ID_CONFIG }, { msgWelcome, msgReply })
-            await configSchema.updateOne({ _id: process.env._ID_CONFIG }, { msgWelcome, msgReply })
+            const { msgWelcome, msgReply, msg1, msg2, msg3, msg4, msg5 } = req.body
+            // let config = await configSchema.updateOne({ _id: process.env._ID_CONFIG }, { msgWelcome, msgReply })
+            await configSchema.updateOne({ _id: process.env._ID_CONFIG }, { msgWelcome, msgReply, msg1, msg2, msg3, msg4, msg5 })
             return res.status(200).json({ message: 'Thay đổi thành công' })
         } catch (error) {
             console.error(error.message)
